@@ -7,12 +7,13 @@
             <menu-item @itemevent="emit">Join Us (but again)</menu-item>
 
             <menu-item @itemevent="emit">
-                <span class="key">f</span> Pay Respects
+                <span class="key">f</span>
+                Pay Respects
             </menu-item>
 
-            <menu-item @itemevent="emit">Options</menu-item>
+            <menu-item @itemevent="emit" :deny="true">Options</menu-item>
 
-            <menu-item @itemevent="emit">Quit Game</menu-item>
+            <menu-item @itemevent="emit" :deny="true">Quit Game</menu-item>
         </div>
     </div>
 </template>

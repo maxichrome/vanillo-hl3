@@ -1,8 +1,9 @@
 <template>
-    <div id="app">
+    <div id="app" @keypress.space.capture="frick">
         <audio ref="player-hover" src="/sound/buttonrollover.wav"></audio>
         <audio ref="player-down" src="/sound/buttonclick.wav"></audio>
         <audio ref="player-press" src="/sound/buttonclickrelease.wav"></audio>
+        <audio ref="player-deny" src="/sound/wpn_denyselect.wav"></audio>
         <router-view class="container" @itemevent.capture="play" />
     </div>
 </template>
@@ -22,8 +23,9 @@ body {
 
 #app {
     display: flex;
-    margin-left: 10rem;
+    padding-left: 10rem;
     height: 100%;
+    width: 100%;
     font-size: 1.25rem;
 }
 
@@ -57,6 +59,9 @@ a:active {
 <script>
 export default {
     methods: {
+        frick() {
+            console.log('gaming')
+        },
         play(event = '') {
             let falling = false
 
