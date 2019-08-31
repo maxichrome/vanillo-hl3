@@ -2,17 +2,17 @@
     <div class="home">
         <img alt="Vanillo 3 logo" id="logo" src="../assets/v3-logowwebv.svg" />
         <div class="menu">
-            <a>Join Us</a>
+            <menu-item @itemevent="emit">Join Us</menu-item>
 
-            <a @mouseover="emit('hover')" @mouseleave.stop="emit('hover-f')">Join Us (but again)</a>
+            <menu-item @itemevent="emit">Join Us (but again)</menu-item>
 
-            <a @mouseover="emit('hover')" @mouseleave.stop="emit('hover-f')">
+            <menu-item @itemevent="emit">
                 <span class="key">f</span> Pay Respects
-            </a>
+            </menu-item>
 
-            <a @mouseover="emit('hover')" @mouseleave.stop="emit('hover-f')">Options</a>
+            <menu-item @itemevent="emit">Options</menu-item>
 
-            <a @mouseover="emit('hover')" @mouseleave.stop="emit('hover-f')">Quit Game</a>
+            <menu-item @itemevent="emit">Quit Game</menu-item>
         </div>
     </div>
 </template>
@@ -56,11 +56,11 @@
 export default {
   name: 'home',
   components: {
-      
+      MenuItem: () => import('../components/MenuItem')
   },
   methods: {
       emit(event) {
-          this.$emit('item-' + event)
+          this.$emit('itemevent', event)
       }
   }
 }

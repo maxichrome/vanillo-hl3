@@ -1,8 +1,9 @@
 <template>
     <div id="app">
         <audio ref="player-hover" src="/sound/buttonrollover.wav"></audio>
+        <audio ref="player-down" src="/sound/buttonclick.wav"></audio>
         <audio ref="player-press" src="/sound/buttonclickrelease.wav"></audio>
-        <router-view class="container" @item-hover="play('hover')" @item-hover-f="play('hover-f')" />
+        <router-view class="container" @itemevent.capture="play" />
     </div>
 </template>
 
@@ -69,10 +70,14 @@ export default {
                 if(!falling)
                     ref.play()
                 else {
-                    ref.pause()
+                    if(!ref.paused)
+                        ref.pause()
                     ref.currentTime = 0
                 }
-            } else return;
+            } else {
+                console.log('no element found for', event, '| falling:', falling)
+                return
+            }
         }
     }
 }
