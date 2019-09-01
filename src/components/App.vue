@@ -17,7 +17,7 @@
             ></iframe>
         </div>
         <div class="window-container" ref="window-container">
-            <div class="window" ref="window--respect">
+            <div class="window respect" ref="window--respect">
                 <div class="titlebar">
                     <span class="title">Pay Respects</span>
                     <button class="close" @click="closeWindow"></button>
@@ -28,7 +28,25 @@
                         <span class="count">{{ respectsPaid }}</span>
                         respect{{ respectsPaid === 1 ? '' : 's' }} to Vanillo.
                     </span>
-                    <button @click="payRespects">Add Respect</button>
+                    <button @click="payRespects">Pay Respects (f)</button>
+                </div>
+                <div class="buttons">
+                    <button @click="closeWindow">Close</button>
+                </div>
+            </div>
+            <div class="window join" ref="window--join">
+                <div class="titlebar">
+                    <span class="title">Join Vanillo</span>
+                    <button class="close" @click="closeWindow"></button>
+                </div>
+                <div class="content">
+                    <span>Unfortunately, Vanillo is closed for the time being.</span>
+                    <span>
+                        Follow our
+                        <a href="https://twitter.com/VanilloPR" target="_blank">Twitter</a> for potential future updates.
+                    </span>
+                    <span>Thank you.</span>
+                    <span>- Team Vanillo</span>
                 </div>
                 <div class="buttons">
                     <button @click="closeWindow">Close</button>
@@ -36,12 +54,7 @@
             </div>
         </div>
         <div class="content">
-            <router-view
-                class="container"
-                @itemevent.capture="play"
-                @openwindow="payRespects"
-                :respects="respectsPaid"
-            />
+            <router-view class="container" @itemevent.capture="play" @openwindow="openWindow" />
         </div>
     </div>
 </template>
@@ -116,56 +129,94 @@ body {
     color: #666;
     flex-direction: column;
     margin: auto;
+    width: 35rem;
     height: 20rem;
-    width: auto;
-    min-width: 35rem;
-    max-height: 20rem;
     border-style: outset;
     border-radius: 0.45rem;
 
     &.open {
         display: flex;
     }
-}
 
-.window > .titlebar {
-    padding: 0.5rem;
-    border-bottom: 1px solid rgba(200, 200, 200, 0.85);
-    display: flex;
-    flex-direction: row;
+    > .titlebar {
+        padding: 0.5rem;
+        border-bottom: 1px solid rgba(200, 200, 200, 0.85);
+        display: flex;
+        flex-direction: row;
 
-    > .title {
-        font-size: 0.75em;
-        font-weight: 700;
-    }
+        > .title {
+            font-size: 0.75em;
+            font-weight: 700;
+        }
 
-    > button.close {
-        border-style: none;
-        margin-left: auto;
-        width: 1.25rem;
-        height: 1.25rem;
-        // background: #f00;
-        line-height: 0;
-        color: inherit;
-        ldisplay: flex;
-        justify-content: center;
-        align-items: center;
+        > button.close {
+            border-style: none;
+            margin-left: auto;
+            width: 1.25rem;
+            height: 1.25rem;
+            // background: #f00;
+            line-height: 0;
+            color: inherit;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-        &:before {
-            content: "✖";
+            &:before {
+                content: "✖";
+            }
         }
     }
-}
 
-.window > .content {
-    height: 100%;
-    overflow-y: scroll;
-}
+    > .content {
+        height: 100%;
+        overflow-y: scroll;
+        padding: 1rem;
+    }
 
-.window > .buttons {
-    padding: 0.5rem;
-    border-top: 1px solid rgba(200, 200, 200, 0.85);
-    display: flex;
+    > .buttons {
+        padding: 0.5rem;
+        border-top: 1px solid rgba(200, 200, 200, 0.85);
+        display: flex;
+
+        & button:first-of-type {
+            margin-left: auto;
+        }
+    }
+
+    &.respect > .content {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        .status {
+            height: 5rem;
+            margin-top: 2rem;
+        }
+
+        .count {
+            font-size: 1.75rem;
+            color: #888;
+            font-weight: 400;
+            font-variant-numeric: tabular-nums;
+        }
+
+        button {
+            width: 50%;
+            margin: 0 auto;
+            padding: 0.5rem;
+        }
+    }
+
+    &.join > .content {
+        display: flex;
+        flex-direction: column;
+
+        span {
+            font-size: 1.25em;
+            font-weight: 500;
+            margin-bottom: 0.75em;
+        }
+    }
 }
 
 .window button {
@@ -188,10 +239,6 @@ body {
     &:not(:first-of-type) {
         margin-left: 0.25rem;
     }
-
-    &:first-of-type {
-        margin-left: auto;
-    }
 }
 
 audio {
@@ -200,7 +247,7 @@ audio {
 
 a {
     color: inherit;
-    text-decoration: none;
+    text-decoration: underline;
     transform: scale(1, 0.9);
     cursor: default;
 }
@@ -220,17 +267,21 @@ a:active {
 
 <script>
 function payRespects(_component = {}) {
+    console.log('paying respects...')
+
     _component.respectsPaid += 1
+
+    _component.openWindow('respect')
 }
 
 export default {
     created() {
         console.log('APP created')
-        window.addEventListener('keydown', this.keyListener.bind(this))
+        window.addEventListener('keyup', this.keyListener.bind(this))
     },
     beforeDestroy() {
         console.log('APP destroying')
-        window.removeEventListener('keydown', this.keyListener.bind(this))
+        window.removeEventListener('keyup', this.keyListener)
     },
     data() {
         return {
@@ -272,12 +323,9 @@ export default {
             return payRespects(this)
         },
         openWindow(window = '') {
-            console.log(
-                'gaming'
-            )
-
             if(this.$refs['window--' + window]) {
                 this.$refs['window--' + window].classList.add('open')
+                this.$refs['window--' + window].focus()
                 this.$refs['window-container'].classList.add('open')
             } else {
                 console.error('window does not exist:', window)

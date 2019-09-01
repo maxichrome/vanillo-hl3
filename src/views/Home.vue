@@ -2,13 +2,17 @@
     <div class="home">
         <img alt="Vanillo 3 logo" id="logo" src="../assets/v3-logowwebv.svg" />
         <div class="menu">
-            <menu-item @itemevent="emit">Join Us</menu-item>
+            <menu-item @itemevent="emit" @click.native="$emit('openwindow', 'join')">Join Vanillo(?)</menu-item>
 
-            <menu-item @itemevent="emit">Join Us (but again)</menu-item>
+            <menu-item
+                @itemevent="emit"
+                href="https://twitter.com/VanilloPR"
+                target="_blank"
+            >Twitter</menu-item>
 
-            <menu-item @itemevent="emit" @click="gamer">
+            <menu-item @itemevent="emit" @click.native="$emit('openwindow', 'respect')">
                 <span class="key">f</span>
-                Pay Respects ({{ respects }})
+                Pay Respects
             </menu-item>
 
             <menu-item @itemevent="emit" :deny="true">Options</menu-item>
@@ -50,6 +54,7 @@
 
 .menu a {
     margin: 0.5em 0;
+    text-decoration: none;
 }
 </style>
 
@@ -58,9 +63,6 @@ export default {
   name: 'home',
   components: {
       MenuItem: () => import('../components/MenuItem')
-  },
-  props: {
-      respects: undefined
   },
   methods: {
       emit(event) {
