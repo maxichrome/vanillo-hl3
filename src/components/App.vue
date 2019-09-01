@@ -270,6 +270,8 @@ function payRespects(_component = {}) {
     console.log('paying respects...')
 
     _component.respectsPaid += 1
+    _component.play('press-f')
+    _component.play('press')
 
     _component.openWindow('respect')
 }
