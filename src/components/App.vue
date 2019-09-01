@@ -54,7 +54,12 @@
             </div>
         </div>
         <div class="content">
-            <router-view class="container" @itemevent.capture="play" @openwindow="openWindow" />
+            <router-view
+                class="container"
+                @itemevent.capture="play"
+                @openwindow="openWindow"
+                @unmuteall="reload"
+            />
         </div>
     </div>
 </template>
@@ -342,6 +347,9 @@ export default {
             }
 
             this.$refs['window-container'].classList.remove('open')
+        },
+        reload() {
+            window.location.reload()
         }
     }
 }
