@@ -1,10 +1,24 @@
 <template>
-    <div id="app" @keypress.space.capture="frick">
+    <div id="app">
         <audio ref="player-hover" src="/sound/buttonrollover.wav"></audio>
         <audio ref="player-down" src="/sound/buttonclick.wav"></audio>
         <audio ref="player-press" src="/sound/buttonclickrelease.wav"></audio>
         <audio ref="player-deny" src="/sound/wpn_denyselect.wav"></audio>
-        <router-view class="container" @itemevent.capture="play" />
+
+        <!-- <audio ref="ambient-base" src="/sound/ambience_base.wav" autoplay loop></audio> -->
+        <!-- <audio ref="ambient-plaza" src="/sound/plaza_amb.wav" autoplay loop></audio> -->
+
+        <div class="background">
+            <iframe
+                src="https://www.youtube-nocookie.com/embed/t5ewEuu5ILc?controls=0&autoplay=1&loop=1"
+                frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+            ></iframe>
+        </div>
+        <div class="content">
+            <router-view class="container" @itemevent.capture="play" />
+        </div>
     </div>
 </template>
 
@@ -12,7 +26,6 @@
 html,
 body {
     margin: 0;
-    background-color: #333;
     color: #fda;
     display: flex;
     width: 100%;
@@ -23,17 +36,45 @@ body {
 
 #app {
     display: flex;
-    padding-left: 10rem;
     height: 100%;
     width: 100%;
     font-size: 1.25rem;
 }
 
-#app > .container {
+#app > .content {
+    position: absolute;
+    display: flex;
+    margin: auto 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 20;
+}
+
+#app > .content > .container {
     display: flex;
     flex-direction: column;
     margin: auto 0;
-    height: auto;
+    width: auto;
+    padding-left: 10rem;
+}
+
+#app > .background {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+#app > .background iframe {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+audio {
+    display: none;
 }
 
 a {
@@ -58,6 +99,23 @@ a:active {
 
 <script>
 export default {
+    created() {
+        console.log('APP created')
+        window.addEventListener('keydown', this.keyListener)
+    },
+    beforeDestroy() {
+        console.log('APP destroying')
+        window.removeEventListener('keydown', this.keyListener)
+    },
+    data: function() {
+        return {
+            keyListener: (event) => {
+                if(event.key === 'f') {
+                    console.log('time to pay some respects')
+                }
+            }
+        }
+    },
     methods: {
         frick() {
             console.log('gaming')
