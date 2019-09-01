@@ -6,9 +6,9 @@
 
             <menu-item @itemevent="emit">Join Us (but again)</menu-item>
 
-            <menu-item @itemevent="emit">
+            <menu-item @itemevent="emit" @click="gamer">
                 <span class="key">f</span>
-                Pay Respects
+                Pay Respects ({{ respects }})
             </menu-item>
 
             <menu-item @itemevent="emit" :deny="true">Options</menu-item>
@@ -59,9 +59,15 @@ export default {
   components: {
       MenuItem: () => import('../components/MenuItem')
   },
+  props: {
+      respects: undefined
+  },
   methods: {
       emit(event) {
           this.$emit('itemevent', event)
+      },
+      gamer() {
+          console.log('please work')
       }
   }
 }
