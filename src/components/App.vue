@@ -5,9 +5,6 @@
         <audio ref="player-press" src="/sound/buttonclickrelease.wav"></audio>
         <audio ref="player-deny" src="/sound/wpn_denyselect.wav"></audio>
 
-        <!-- <audio ref="ambient-base" src="/sound/ambience_base.wav" autoplay loop></audio> -->
-        <!-- <audio ref="ambient-plaza" src="/sound/plaza_amb.wav" autoplay loop></audio> -->
-
         <div class="background">
             <iframe
                 src="https://www.youtube.com/embed/t5ewEuu5ILc?controls=0&autoplay=1&loop=1"
