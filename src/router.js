@@ -9,6 +9,11 @@ export default new Router({
             path: '/',
             name: 'home',
             component: () => import('./views/Home.vue')
+        },
+        {
+            path: '*',
+            name: 'home-redirect',
+            redirect: '/'
         }
     ]
 })
