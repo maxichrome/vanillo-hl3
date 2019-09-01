@@ -15,11 +15,6 @@
                 Pay Respects
             </menu-item>
 
-            <menu-item
-                @itemevent="emit"
-                @click.native="$emit('unmuteall')"
-            >Play Media (experimental)</menu-item>
-
             <menu-item @itemevent="emit" :deny="true">Options</menu-item>
 
             <menu-item @itemevent="emit" :deny="true">Quit Game</menu-item>

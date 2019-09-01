@@ -16,7 +16,7 @@
                 allowfullscreen
             ></iframe>
         </div>
-        <div class="window-container" ref="window-container">
+        <div class="window-container" ref="window-container" @click.self="closeWindow">
             <div class="window respect" ref="window--respect">
                 <div class="titlebar">
                     <span class="title">Pay Respects</span>
