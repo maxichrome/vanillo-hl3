@@ -52,6 +52,7 @@
 .menu a {
     margin: 0.5em 0;
     text-decoration: none;
+    cursor: default;
 }
 </style>
 

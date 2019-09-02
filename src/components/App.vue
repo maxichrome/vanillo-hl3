@@ -79,6 +79,37 @@
                         </span>-->
                     </div>
                 </section>
+                <section>
+                    <span class="title">Info</span>
+                    <div class="text">
+                        <span>
+                            <strong>Copyright &copy; 2019 CosmicMedia LLC.</strong>
+                            <br />All rights reserved.
+                            <br />
+                            <br />Made by
+                            <a href="https://hflet.ch" target="_blank">Haden</a>.
+                            <br />Inspired by
+                            <a
+                                href="https://store.steampowered.com/app/220"
+                                target="_blank"
+                            >Half-Life 2</a>.
+                        </span>
+                        <span>
+                            The
+                            <em>Half-Life 2</em> name and the background images used on this site are
+                            <strong>copyright &copy; Valve Corporation</strong>.
+                            <br />No infringement is intended.
+                            <br />
+                            <br />If you would like to request a takedown due to content on this site, please
+                            <a
+                                href="mailto:copyright@vanillo.co"
+                                target="_blank"
+                            >contact us</a>.
+                            <br />
+                            <br />Thank you.
+                        </span>
+                    </div>
+                </section>
 
                 <template v-slot:buttons>
                     <button @click="savePreferences(); closeWindow()">OK</button>
@@ -210,16 +241,20 @@ body {
     section {
         border: solid 1px #909090;
         border-radius: 3px;
-        font-size: 1.15em;
+        font-size: 0.65em;
+
+        &:not(:first-of-type) {
+            margin-top: 1.25rem;
+        }
 
         .title {
             display: inline-block;
             font-weight: 600;
-            font-size: 0.75em;
+            font-size: 1.125em;
             position: relative;
             margin: 0;
             padding: 0 0.25em;
-            top: -0.75em;
+            top: -0.5em;
             left: 0.25em;
             text-shadow: 0 0 5px rgb(200, 200, 200);
             background: rgb(200, 200, 200);
@@ -234,6 +269,11 @@ body {
             grid-template-columns: repeat(2, 1fr);
             column-gap: 0.25em;
             row-gap: 0.15em;
+
+            &.text {
+                column-gap: 2em;
+                row-gap: 1em;
+            }
         }
 
         span.option {
@@ -248,7 +288,6 @@ body {
 
         label,
         button {
-            font-size: 0.65em;
             letter-spacing: 0.05ch;
             font-weight: 500;
             margin-left: 0.25em;
@@ -264,7 +303,6 @@ a {
     color: inherit;
     text-decoration: underline;
     transform: scale(1, 0.9);
-    cursor: default;
 
     &:hover {
         opacity: 0.8;
