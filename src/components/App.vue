@@ -6,7 +6,7 @@
         <audio ref="player-deny" src="/sound/wpn_denyselect.wav"></audio>
 
         <div class="background">
-            <youtube
+            <!-- <youtube
                 video-id="t5ewEuu5ILc"
                 :player-vars="{
                     controls: 0,
@@ -17,7 +17,10 @@
                 @ready="playerReady"
                 @ended="playBackground"
                 ref="bg-player-container"
-            ></youtube>
+            ></youtube>-->
+            <div class="background-container">
+                <img :src="`/background/${bgImage}.jpg`" />
+            </div>
         </div>
         <div class="window-container" ref="window-container" @click.self="closeWindow">
             <v-window title="Pay Respects" name="respects" :list="windows" @close="closeWindow">
@@ -55,7 +58,7 @@
                             <input type="checkbox" id="play-media" v-model="preferences.playMedia" />
                             <label for="play-media">Play Sound Effects</label>
                         </span>
-                        <span class="option">
+                        <!-- <span class="option">
                             <input
                                 type="checkbox"
                                 id="bg-audio"
@@ -73,7 +76,7 @@
                         </span>
                         <span class="option">
                             <button @click="toggleBackground">Toggle Background Media</button>
-                        </span>
+                        </span>-->
                     </div>
                 </section>
 
@@ -137,10 +140,19 @@ body {
         > div {
             height: 100%;
             width: 100%;
+            position: relative;
 
-            > iframe {
-                height: 100%;
-                width: 100%;
+            > img {
+                position: absolute;
+                margin: auto;
+                width: auto;
+                height: auto;
+                min-width: 100%;
+                min-height: 100%;
+                top: -9999px;
+                right: -9999px;
+                left: -9999px;
+                bottom: -9999px;
             }
         }
     }
@@ -196,7 +208,7 @@ body {
     font-weight: 400;
 
     section {
-        border: solid 1px black;
+        border: solid 1px #909090;
         border-radius: 3px;
         font-size: 1.15em;
 
@@ -270,6 +282,7 @@ a {
 
 <script>
 import { setInterval, clearInterval } from 'timers';
+
 function payRespects(_component = {}) {
     console.info('paying respects...')
 
@@ -314,7 +327,8 @@ export default {
                 backgroundAutoplay: false
             },
             bgPlayer: null,
-            respectsTimer: null
+            respectsTimer: null,
+            bgImage: Math.ceil(Math.random() * 5)
         }
     },
     methods: {
