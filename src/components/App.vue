@@ -11,10 +11,11 @@
                 :player-vars="{
                     controls: 0,
                     autoplay: (+preferences.backgroundAutoplay || 0),
-                    loop: 1
+                    start: 0
                 }"
                 :mute="!!preferences.backgroundMuted || false"
                 @ready="playerReady"
+                @ended="playBackground"
                 ref="bg-player-container"
             ></youtube>
         </div>
@@ -339,7 +340,7 @@ export default {
                     ref.currentTime = 0
                 }
             } else {
-                console.debug('no element found for', event, '| falling:', falling)
+                console.debug('no element found for', event, '| falling-edge:', falling)
                 return
             }
         },
@@ -349,6 +350,8 @@ export default {
             if(event.key === 'f') {
                 this.openWindow('respects')
                 payRespects(this)
+            } else if(event.key === 'Escape') {
+                this.closeWindow()
             }
         },
         clickListener() {
