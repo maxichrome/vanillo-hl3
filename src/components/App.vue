@@ -22,7 +22,7 @@
             <v-window title="Pay Respects" name="respects" :list="windows" @close="closeWindow">
                 <span class="status">
                     You've paid
-                    <span class="count">{{ respectsPaid }}</span>
+                    <span class="count">{{ respectsPaid.toLocaleString() }}</span>
                     respect{{ respectsPaid === 1 ? '' : 's' }} to Vanillo.
                 </span>
                 <button @click="payRespects">Pay Respects (f)</button>
