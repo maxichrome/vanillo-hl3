@@ -102,7 +102,7 @@
                             <br />
                             <br />If you would like to request a takedown due to content on this site, please
                             <a
-                                href="mailto:copyright@vanillo.co"
+                                href
                                 target="_blank"
                             >contact us</a>.
                             <br />
