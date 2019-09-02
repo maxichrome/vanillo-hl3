@@ -23,9 +23,6 @@
 </template>
 
 <style lang="scss">
-.home {
-}
-
 #logo {
     height: 5rem;
     margin-bottom: 2rem;
