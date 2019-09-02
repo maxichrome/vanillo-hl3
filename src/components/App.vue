@@ -83,12 +83,7 @@
             </v-window>
         </div>
         <div class="content">
-            <router-view
-                class="container"
-                @itemevent.capture="play"
-                @openwindow="openWindow"
-                @unmuteall="reload"
-            />
+            <router-view class="container" @itemevent.capture="play" @openwindow="openWindow" />
         </div>
     </div>
 </template>
