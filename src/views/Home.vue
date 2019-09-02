@@ -10,12 +10,12 @@
                 target="_blank"
             >Twitter</menu-item>
 
-            <menu-item @itemevent="emit" @click.native="$emit('openwindow', 'respect')">
+            <menu-item @itemevent="emit" @click.native="$emit('openwindow', 'respects')">
                 <span class="key">f</span>
                 Pay Respects
             </menu-item>
 
-            <menu-item @itemevent="emit" :deny="true">Options</menu-item>
+            <menu-item @itemevent="emit" @click.native="$emit('openwindow', 'options')">Options</menu-item>
 
             <menu-item @itemevent="emit" :deny="true">Quit Game</menu-item>
         </div>

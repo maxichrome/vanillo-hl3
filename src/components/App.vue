@@ -6,49 +6,81 @@
         <audio ref="player-deny" src="/sound/wpn_denyselect.wav"></audio>
 
         <div class="background">
-            <iframe
-                src="https://www.youtube.com/embed/t5ewEuu5ILc?controls=0&autoplay=1&loop=1"
-                frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-            ></iframe>
+            <youtube
+                video-id="t5ewEuu5ILc"
+                :player-vars="{
+                    controls: 0,
+                    autoplay: (+preferences.backgroundAutoplay || 0),
+                    loop: 1
+                }"
+                :mute="!!preferences.backgroundMuted || false"
+                @ready="playerReady"
+                ref="bg-player-container"
+            ></youtube>
         </div>
         <div class="window-container" ref="window-container" @click.self="closeWindow">
-            <div class="window respect" ref="window--respect">
-                <div class="titlebar">
-                    <span class="title">Pay Respects</span>
-                    <button class="close" @click="closeWindow"></button>
-                </div>
-                <div class="content">
-                    <span class="status">
-                        You've paid
-                        <span class="count">{{ respectsPaid }}</span>
-                        respect{{ respectsPaid === 1 ? '' : 's' }} to Vanillo.
-                    </span>
-                    <button @click="payRespects">Pay Respects (f)</button>
-                </div>
-                <div class="buttons">
+            <v-window title="Pay Respects" name="respects" :list="windows" @close="closeWindow">
+                <span class="status">
+                    You've paid
+                    <span class="count">{{ respectsPaid }}</span>
+                    respect{{ respectsPaid === 1 ? '' : 's' }} to Vanillo.
+                </span>
+                <button @click="payRespects">Pay Respects (f)</button>
+
+                <template v-slot:buttons>
                     <button @click="closeWindow">Close</button>
-                </div>
-            </div>
-            <div class="window join" ref="window--join">
-                <div class="titlebar">
-                    <span class="title">Join Vanillo</span>
-                    <button class="close" @click="closeWindow"></button>
-                </div>
-                <div class="content">
-                    <span>Unfortunately, Vanillo is closed for the time being.</span>
-                    <span>
-                        Follow our
-                        <a href="https://twitter.com/VanilloPR" target="_blank">Twitter</a> for potential future updates.
-                    </span>
-                    <span>Thank you.</span>
-                    <span>- Team Vanillo</span>
-                </div>
-                <div class="buttons">
+                </template>
+            </v-window>
+
+            <v-window title="Join Vanillo" name="join" :list="windows" @close="closeWindow">
+                <span>Unfortunately, Vanillo is closed for the time being.</span>
+                <span>
+                    Follow our
+                    <a href="https://twitter.com/VanilloPR" target="_blank">Twitter</a> for potential future updates.
+                </span>
+                <span>Thank you.</span>
+                <span>- Team Vanillo</span>
+
+                <template v-slot:buttons>
                     <button @click="closeWindow">Close</button>
-                </div>
-            </div>
+                </template>
+            </v-window>
+
+            <v-window title="Options" name="options" :list="windows" @close="closeWindow">
+                <section>
+                    <span class="title">Media</span>
+                    <div>
+                        <span class="option">
+                            <input type="checkbox" id="play-media" v-model="preferences.playMedia" />
+                            <label for="play-media">Play Sound Effects</label>
+                        </span>
+                        <span class="option">
+                            <input
+                                type="checkbox"
+                                id="bg-audio"
+                                v-model="preferences.backgroundMuted"
+                            />
+                            <label for="bg-audio">Mute Background Audio</label>
+                        </span>
+                        <span class="option">
+                            <input
+                                type="checkbox"
+                                id="bg-autoplay"
+                                v-model="preferences.backgroundAutoplay"
+                            />
+                            <label for="bg-autoplay">Autoplay Background</label>
+                        </span>
+                        <span class="option">
+                            <button @click="toggleBackground">Toggle Background Media</button>
+                        </span>
+                    </div>
+                </section>
+
+                <template v-slot:buttons>
+                    <button @click="savePreferences(); closeWindow()">OK</button>
+                    <button @click="reloadPreferences(); closeWindow()">Cancel</button>
+                </template>
+            </v-window>
         </div>
         <div class="content">
             <router-view
@@ -78,168 +110,136 @@ body {
     height: 100%;
     width: 100%;
     font-size: 1.25rem;
-}
 
-#app > .content {
-    position: absolute;
-    display: flex;
-    margin: auto 0;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 20;
-}
-
-#app > .content > .container {
-    display: flex;
-    flex-direction: column;
-    margin: auto 0;
-    width: auto;
-    padding-left: 10rem;
-}
-
-#app > .background {
-    position: absolute;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-}
-
-#app > .background iframe {
-    width: 100%;
-    height: 100%;
-    display: flex;
-}
-
-#app > .window-container {
-    position: absolute;
-    display: none;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 50;
-
-    &.open {
+    > .content {
+        position: absolute;
         display: flex;
-    }
-}
+        margin: auto 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 20;
 
-.window {
-    background: rgba(200, 200, 200, 0.9);
-    display: none;
-    color: #666;
-    flex-direction: column;
-    margin: auto;
-    width: 35rem;
-    height: 20rem;
-    border-style: outset;
-    border-radius: 0.45rem;
-
-    &.open {
-        display: flex;
-    }
-
-    > .titlebar {
-        padding: 0.5rem;
-        border-bottom: 1px solid rgba(200, 200, 200, 0.85);
-        display: flex;
-        flex-direction: row;
-
-        > .title {
-            font-size: 0.75em;
-            font-weight: 700;
-        }
-
-        > button.close {
-            border-style: none;
-            margin-left: auto;
-            width: 1.25rem;
-            height: 1.25rem;
-            // background: #f00;
-            line-height: 0;
-            color: inherit;
+        > .container {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            margin: auto 0;
+            width: auto;
+            padding-left: 10vw;
+        }
+    }
 
-            &:before {
-                content: "✖";
+    > .background {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        position: absolute;
+        overflow: hidden;
+
+        > div {
+            height: 100%;
+            width: 100%;
+
+            > iframe {
+                height: 100%;
+                width: 100%;
             }
         }
     }
 
-    > .content {
+    > .window-container {
+        position: absolute;
+        display: none;
+        width: 100%;
         height: 100%;
-        overflow-y: scroll;
-        padding: 1rem;
-    }
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 50;
 
-    > .buttons {
-        padding: 0.5rem;
-        border-top: 1px solid rgba(200, 200, 200, 0.85);
-        display: flex;
-
-        & button:first-of-type {
-            margin-left: auto;
-        }
-    }
-
-    &.respect > .content {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-
-        .status {
-            height: 5rem;
-            margin-top: 2rem;
-        }
-
-        .count {
-            font-size: 1.75rem;
-            color: #888;
-            font-weight: 400;
-            font-variant-numeric: tabular-nums;
-        }
-
-        button {
-            width: 50%;
-            margin: 0 auto;
-            padding: 0.5rem;
-        }
-    }
-
-    &.join > .content {
-        display: flex;
-        flex-direction: column;
-
-        span {
-            font-size: 1.25em;
-            font-weight: 500;
-            margin-bottom: 0.75em;
+        &.open {
+            display: flex;
         }
     }
 }
 
-.window button {
-    border-style: outset;
-    appearance: none;
-    color: #fff;
-    padding: 0.25rem 0.5rem;
-    background: none;
-    font-family: inherit;
-    font-weight: inherit;
+#window-respects {
+    text-align: center;
 
-    &:active {
-        border-style: inset;
+    .status {
+        height: 5rem;
+        margin-top: 2rem;
     }
 
-    &:focus {
-        outline: none;
+    .count {
+        font-size: 1.75rem;
+        color: #888;
+        font-weight: 400;
+        font-variant-numeric: tabular-nums;
     }
 
-    &:not(:first-of-type) {
-        margin-left: 0.25rem;
+    button {
+        width: 50%;
+        margin: 0 auto;
+        padding: 0.5rem;
+    }
+}
+
+#window-join {
+    span {
+        font-size: 1.25em;
+        font-weight: 500;
+        margin-bottom: 0.75em;
+    }
+}
+
+#window-options {
+    font-weight: 400;
+
+    section {
+        border: solid 1px black;
+        border-radius: 3px;
+        font-size: 1.15em;
+
+        .title {
+            display: inline-block;
+            font-weight: 600;
+            font-size: 0.75em;
+            position: relative;
+            margin: 0;
+            padding: 0 0.25em;
+            top: -0.75em;
+            left: 0.25em;
+            text-shadow: 0 0 5px rgb(200, 200, 200);
+            background: rgb(200, 200, 200);
+        }
+
+        > div {
+            padding: 0.5em;
+            padding-top: 0;
+            padding-bottom: 0.75em;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 0.25em;
+            row-gap: 0.15em;
+        }
+
+        span.option {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        input[type="checkbox"] {
+            border-style: inset;
+        }
+
+        label {
+            font-size: 0.65em;
+            letter-spacing: 0.15ch;
+            font-weight: 500;
+            margin-left: 0.25em;
+        }
     }
 }
 
@@ -252,56 +252,70 @@ a {
     text-decoration: underline;
     transform: scale(1, 0.9);
     cursor: default;
-}
 
-a:hover {
-    opacity: 0.8;
-}
+    &:hover {
+        opacity: 0.8;
+    }
 
-a:focus {
-    opacity: 0.8;
-}
+    &:focus {
+        opacity: 0.8;
+    }
 
-a:active {
-    opacity: 0.9;
+    &:active {
+        opacity: 0.9;
+    }
 }
 </style>
 
 <script>
 function payRespects(_component = {}) {
-    console.log('paying respects...')
+    console.info('paying respects...')
 
     _component.respectsPaid += 1
     _component.play('press-f')
     _component.play('press')
 
-    _component.openWindow('respect')
+    _component.openWindow('respects')
 }
 
 export default {
     created() {
         console.log('APP created')
         window.addEventListener('keyup', this.keyListener.bind(this))
+        window.addEventListener('click', this.clickListener.bind(this))
+
+        console.log('refs', this.$refs)
+
+        this.reloadPreferences()
     },
     beforeDestroy() {
         console.log('APP destroying')
         window.removeEventListener('keyup', this.keyListener)
+        window.removeEventListener('click', this.clickListener)
+    },
+    components: {
+        VWindow: () => import('./Window')
     },
     data() {
         return {
-            keyListener(event) {
-                if(event.key === 'f') {
-                    payRespects(this)
-                }
+            respectsPaid: 0,
+            windows: {},
+            preferences: {
+                playMedia: false,
+                backgroundMuted: true,
+                backgroundAutoplay: false
             },
-            respectsPaid: 0
+            bgPlayer: null
         }
     },
     methods: {
         frick() {
-            console.log('gaming')
+            console.debug('gaming')
         },
         play(event = '') {
+            if(this.preferences.playMedia !== true)
+                return;
+
             let falling = false
 
             if(event.endsWith('-f')) {
@@ -319,31 +333,81 @@ export default {
                     ref.currentTime = 0
                 }
             } else {
-                console.log('no element found for', event, '| falling:', falling)
+                console.debug('no element found for', event, '| falling:', falling)
                 return
             }
+        },
+        keyListener(event) {
+            this.firstInteraction()
+
+            if(event.key === 'f') {
+                payRespects(this)
+            }
+        },
+        clickListener() {
+            this.firstInteraction()
+        },
+        firstInteraction() {
+            if(!localStorage.getItem('prefs')) {
+                this.preferences.playMedia = true
+                this.preferences.backgroundAutoplay = true
+                this.savePreferences()
+            }
+        },
+        savePreferences() {
+            console.info('saving preferences', this.preferences)
+            localStorage.setItem('prefs', JSON.stringify(this.preferences))
+
+            if(this.preferences.backgroundAutoplay === true)
+                this.playBackground()
+        },
+        reloadPreferences() {
+            console.info('loading prefs')
+
+            if(localStorage.getItem('prefs')) {
+                const newPreferences = Object.assign({}, this.preferences, JSON.parse(localStorage.getItem('prefs')))
+                for(const key in newPreferences) {
+                    this.preferences[key] = newPreferences[key]
+                }
+            }
+
+            console.info('prefs loaded')
+        },
+        playerReady(event) {
+            this.bgPlayer = event.target
+        },
+        toggleBackground() {
+            if(this.bgPlayer) {
+                const state = this.bgPlayer.getPlayerState()
+
+                if(state === 5)
+                    this.playBackground()
+                else
+                    this.stopBackground()
+            }
+        },
+        playBackground() {
+            if(this.bgPlayer)
+                this.bgPlayer.playVideo()
+        },
+        stopBackground() {
+            if(this.bgPlayer)
+                this.bgPlayer.stopVideo()
         },
         payRespects() {
             return payRespects(this)
         },
         openWindow(window = '') {
-            if(this.$refs['window--' + window]) {
-                this.$refs['window--' + window].classList.add('open')
-                this.$refs['window--' + window].focus()
-                this.$refs['window-container'].classList.add('open')
+            if(this.windows[window]) {
+                this.windows[window].open()
             } else {
                 console.error('window does not exist:', window)
             }
         },
         closeWindow() {
-            for(const refName in this.$refs) {
-                if(refName.startsWith('window--')){
-                    const ref = this.$refs[refName]
-                    ref.classList.remove('open')
-                }
+            for(const window in this.windows) {
+                this.windows[window].close()
             }
-
-            this.$refs['window-container'].classList.remove('open')
         },
         reload() {
             window.location.reload()
