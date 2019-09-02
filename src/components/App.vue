@@ -188,7 +188,10 @@ body {
     span {
         font-size: 1.15em;
         font-weight: 500;
-        margin-bottom: 0.75em;
+
+        &:not(:last-of-type) {
+            margin-bottom: 0.75em;
+        }
     }
 }
 
@@ -268,6 +271,7 @@ a {
 </style>
 
 <script>
+import { setInterval, clearInterval } from 'timers';
 function payRespects(_component = {}) {
     console.info('paying respects...')
 
@@ -282,6 +286,12 @@ export default {
         window.addEventListener('keyup', this.keyListener.bind(this))
         window.addEventListener('click', this.clickListener.bind(this))
 
+        this.loadRespectCount()
+
+        this.respectsTimer = setInterval(function() {
+            this.saveRespectCount()
+        }.bind(this), 5000)
+
         console.log('refs', this.$refs)
 
         this.reloadPreferences()
@@ -290,6 +300,8 @@ export default {
         console.log('APP destroying')
         window.removeEventListener('keyup', this.keyListener)
         window.removeEventListener('click', this.clickListener)
+
+        clearInterval(this.respectsTimer)
     },
     components: {
         VWindow: () => import('./Window')
@@ -303,7 +315,8 @@ export default {
                 backgroundMuted: true,
                 backgroundAutoplay: false
             },
-            bgPlayer: null
+            bgPlayer: null,
+            respectsTimer: null
         }
     },
     methods: {
@@ -371,6 +384,16 @@ export default {
             }
 
             console.info('prefs loaded')
+        },
+        saveRespectCount() {
+            localStorage.setItem('respects', this.respectsPaid)
+            console.log('saved respects')
+        },
+        loadRespectCount() {
+            if(localStorage.getItem('respects'))
+                this.respectsPaid = +localStorage.getItem('respects')
+
+            console.log('loaded respects:', this.respectsPaid)
         },
         playerReady(event) {
             this.bgPlayer = event.target
