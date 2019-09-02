@@ -4,16 +4,16 @@
         <div class="menu">
             <menu-item @itemevent="emit" @click.native="$emit('openwindow', 'join')">Join Vanillo(?)</menu-item>
 
-            <menu-item
-                @itemevent="emit"
-                href="https://twitter.com/VanilloPR"
-                target="_blank"
-            >Twitter</menu-item>
-
             <menu-item @itemevent="emit" @click.native="$emit('openwindow', 'respects')">
                 <span class="key">f</span>
                 Pay Respects
             </menu-item>
+
+            <menu-item
+                @itemevent="emit"
+                href="https://twitter.com/VanilloPR"
+                target="_blank"
+            >@VanilloPR</menu-item>
 
             <menu-item @itemevent="emit" @click.native="$emit('openwindow', 'options')">Options</menu-item>
 
