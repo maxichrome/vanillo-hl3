@@ -99,6 +99,7 @@ body {
     height: 100%;
     font-family: Arial, sans-serif;
     font-weight: 700;
+    user-select: none;
 }
 
 #app {
