@@ -39,7 +39,7 @@
                     <a href="https://twitter.com/VanilloPR" target="_blank">Twitter</a> for potential future updates.
                 </span>
                 <span>Thank you.</span>
-                <span>- Team Vanillo</span>
+                <span>Team Vanillo ❤🍦</span>
 
                 <template v-slot:buttons>
                     <button @click="closeWindow">Close</button>
@@ -101,7 +101,7 @@ body {
     display: flex;
     width: 100%;
     height: 100%;
-    font-family: sans-serif;
+    font-family: Arial, sans-serif;
     font-weight: 700;
 }
 
@@ -186,7 +186,7 @@ body {
 
 #window-join {
     span {
-        font-size: 1.25em;
+        font-size: 1.15em;
         font-weight: 500;
         margin-bottom: 0.75em;
     }

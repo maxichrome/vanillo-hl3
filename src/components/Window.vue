@@ -33,7 +33,6 @@
 
     > .titlebar {
         padding: 0.5rem;
-        border-bottom: 1px solid rgba(200, 200, 200, 0.85);
         display: flex;
         flex-direction: row;
 
@@ -66,11 +65,13 @@
         padding: 1rem;
         display: flex;
         flex-direction: column;
+        margin: 0 0.5rem;
+        border-style: outset;
+        border-width: 2px;
     }
 
     > .buttons {
         padding: 0.5rem;
-        border-top: 1px solid rgba(200, 200, 200, 0.85);
         display: flex;
 
         & button:first-of-type {
