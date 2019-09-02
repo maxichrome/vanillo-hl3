@@ -82,7 +82,7 @@
     button {
         border-style: outset;
         appearance: none;
-        color: #fff;
+        color: inherit;
         padding: 0.25rem 0.5rem;
         background: none;
         font-family: inherit;

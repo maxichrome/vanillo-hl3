@@ -234,9 +234,10 @@ body {
             border-style: inset;
         }
 
-        label {
+        label,
+        button {
             font-size: 0.65em;
-            letter-spacing: 0.15ch;
+            letter-spacing: 0.05ch;
             font-weight: 500;
             margin-left: 0.25em;
         }
