@@ -274,8 +274,6 @@ function payRespects(_component = {}) {
     _component.respectsPaid += 1
     _component.play('press-f')
     _component.play('press')
-
-    _component.openWindow('respects')
 }
 
 export default {
@@ -341,6 +339,7 @@ export default {
             this.firstInteraction()
 
             if(event.key === 'f') {
+                this.openWindow('respects')
                 payRespects(this)
             }
         },

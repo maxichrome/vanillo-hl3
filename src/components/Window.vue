@@ -116,6 +116,9 @@ export default {
     },
     methods: {
         open() {
+            if(this.$el.classList.contains('open'))
+                return;
+
             console.log('opening window:', this.name)
 
             for(const windowName in this.list) {
