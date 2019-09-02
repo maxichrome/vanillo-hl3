@@ -368,9 +368,6 @@ export default {
         savePreferences() {
             console.info('saving preferences', this.preferences)
             localStorage.setItem('prefs', JSON.stringify(this.preferences))
-
-            if(this.preferences.backgroundAutoplay === true)
-                this.playBackground()
         },
         reloadPreferences() {
             console.info('loading prefs')
