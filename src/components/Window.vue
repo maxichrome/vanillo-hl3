@@ -68,6 +68,7 @@
         margin: 0 0.5rem;
         border-style: outset;
         border-width: 2px;
+        height: 13rem;
     }
 
     > .buttons {

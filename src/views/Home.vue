@@ -18,6 +18,8 @@
             <menu-item @itemevent="emit" @click.native="$emit('openwindow', 'options')">Options</menu-item>
 
             <menu-item @itemevent="emit" :deny="true">Quit Game</menu-item>
+
+            <menu-item @itemevent="emit" :deny="true">This is better with sound!</menu-item>
         </div>
     </div>
 </template>

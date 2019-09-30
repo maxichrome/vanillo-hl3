@@ -37,13 +37,16 @@
             </v-window>
 
             <v-window title="Join Vanillo" name="join" :list="windows" @close="closeWindow">
-                <span>Unfortunately, Vanillo is closed for the time being.</span>
+                <span>We're still working on Vanillo behind the scenes.</span>
                 <span>
                     Follow our
-                    <a href="https://twitter.com/VanilloPR" target="_blank">Twitter</a> for potential future updates.
+                    <a href="https://twitter.com/VanilloPR" target="_blank">Twitter</a> for updates!
                 </span>
-                <span>Thank you.</span>
-                <span>Team Vanillo ❤🍦</span>
+                <span></span>
+                <span>
+                    — Team Vanillo
+                    <br />❤🍦
+                </span>
 
                 <template v-slot:buttons>
                     <button @click="closeWindow">Close</button>
@@ -102,7 +105,7 @@
                             <br />
                             <br />If you would like to request a takedown due to content on this site, please
                             <a
-                                href
+                                href="mailto:legal@cosmic.media"
                                 target="_blank"
                             >contact us</a>.
                             <br />
