@@ -1,1 +1,10 @@
 Content omitted from this folder due to copyright. Not served by any sort of notice, just preventing issue.
+
+List of items:
+> buttonclick.wav
+> buttonclickrelease.wav
+> buttonrollover.wav
+> wpn_denyselect.wav
+> wpn_hudoff.wav
+> wpn_moveselect.wav
+> wpn_select.wav
