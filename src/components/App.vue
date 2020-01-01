@@ -86,28 +86,36 @@
                     <span class="title">Info</span>
                     <div class="text">
                         <span>
-                            <strong>Copyright &copy; 2019 CosmicMedia LLC.</strong>
+                            <strong>Copyright &copy; 2019.</strong>
                             <br />All rights reserved.
                             <br />
                             <br />Made by
-                            <a href="https://hflet.ch" target="_blank">Haden</a>.
+                            <a href="https://hflet.ch" target="_blank">Haden Fletcher</a>.
                             <br />Inspired by
                             <a
                                 href="https://store.steampowered.com/app/220"
                                 target="_blank"
-                            >Half-Life 2</a>.
+                            >Half-Life 2</a> and the Source engine.
+                            <br />
+                            <br />Vanillo was a project by
+                            <a
+                                href="https://cosmic.media"
+                                target="_blank"
+                            >CosmicMedia LLC</a>.
                         </span>
                         <span>
-                            The
-                            <em>Half-Life 2</em> name and the background images used on this site are
+                            Half-Life 2 and Source are trademarks of
+                            <strong>Valve Corporation</strong>.
+                            <br />
+                            <br />
+                            The background image and sounds on this site are
                             <strong>copyright &copy; Valve Corporation</strong>.
-                            <br />No infringement is intended.
                             <br />
                             <br />If you would like to request a takedown due to content on this site, please
                             <a
-                                href="mailto:legal@cosmic.media"
+                                href="mailto:haden@hadenfletcher.com"
                                 target="_blank"
-                            >contact us</a>.
+                            >contact me</a>.
                             <br />
                             <br />Thank you.
                         </span>
